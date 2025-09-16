@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "Index";
+    var stt = 1;
+}
+<style>
+    .card-img-top {
+        height: auto; /* Chiều cao đồng bộ */
+        width: 100%; /* Fit theo card */
+        object-fit: cover; /* Cắt ảnh vừa khung */
+    }
+
+    .artist-img {
+        height: 180px;
+        width: 180px;
+        object-fit: cover;
+        margin: 0 auto;
+    }   
+</style>
+<div class="ms-home-top">
+    <div class="ms-home-carousel">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="item active">
+                    <a href="#"><img src="~/Content/Images/banner.png" style="width:650px; height:280px;"></a>
+
+                </div>
+                <div class="item">
+                    <a href="#"><img src="~/Content/Images/banner1.jpg" style="width:650px; height:280px;"></a>
+                </div>
+                <div class="item">
+                    <a href="#"><img src="~/Content/Images/banner2.jpg" style="width:650px; height:280px;"></a>
+                </div>
+                <div class="item">
+                    <a href="#"><img src="~/Content/Images/banner3.jpg" style="width:650px; height:280px;"></a>
+                </div>
+            </div>
+            <ul class="subimg">
+                <li data-target="#myCarousel" data-slide-to="0" class="active">
+                    <a href="#"><img src="~/Content/Images/banner.png" style="width:110px; height:50px;"></a>
+
+                </li>
+                <li data-target="#myCarousel" data-slide-to="1">
+                    <a href="#"><img src="~/Content/Images/banner1.jpg" style="width:110px; height:50px;"></a>
+                </li>
+                <li data-target="#myCarousel" data-slide-to="2">
+                    <a href="#"><img src="~/Content/Images/banner2.jpg" style="width:110px; height:50px;"></a>
+                </li>
+                <li data-target="#myCarousel" data-slide-to="3">
+                    <a href="#"><img src="~/Content/Images/banner3.jpg" style="width:110px; height:50px;"></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <div class="ms-home-bxh">
+        <p>Danh sách bảng xếp hạng</p>
+        <ul>
+            @foreach (var topmusic in (IEnumerable<MusicViet.Models.ListSong>)ViewBag.listSong)
+            {
+                <li>
+                    <span style="color: blueviolet; font-size: 16px; font-weight: 600;">0@(stt++)</span>
+                    @Html.ActionLink(topmusic.SongTitle, "Detail", "DetailSong", new { id = topmusic.Id }, null)
+
+                    <span>Lượt nghe: @topmusic.Views</span>
+                </li>
+            }
+
+        </ul>
+    </div>
+</div>
+<div class="ms-home-bottom mt-5">
+    <h3 class="mb-3 fw-bold text-primary">
+        NHẠC MỚI <i class="fa fa-angle-right"></i>
+    </h3>
+    <div class="row g-4">
+        @foreach (var newmusic in ViewBag.listNewSong as List<MusicViet.Models.ListNewSong>)
+        {
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm border-0 h-100">
+                    <img src="~/Content/Images/music.jpg" class="card-img-top rounded" alt="@newmusic.SongTitle">
+                    <div class="card-body text-center">
+                        @Html.ActionLink(newmusic.SongTitle, "Detail", "DetailSong",
+                            new { id = newmusic.id },
+                            new { @class = "fw-semibold d-block text-truncate text-decoration-none" })
+                        @Html.ActionLink(newmusic.SingerName, "Detail", "DetailArtist",
+                            new { id = newmusic.SingerId, artist = "singer" },
+                            new { @class = "text-muted small text-decoration-none" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- NHẠC HOT -->
+    <h3 class="mt-5 mb-3 fw-bold text-danger">
+        NHẠC HOT <i class="fa fa-angle-right"></i>
+    </h3>
+    <div class="row g-4">
+        @foreach (var hotmusic in ViewBag.listSong as List<MusicViet.Models.ListSong>)
+        {
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm border-0 h-100">
+                    <img src="~/Content/Images/music2.png" class="card-img-top rounded" alt="@hotmusic.SongTitle">
+                    <div class="card-body text-center">
+                        @Html.ActionLink(hotmusic.SongTitle, "Detail", "DetailSong",
+                            new { id = hotmusic.Id },
+                            new { @class = "fw-semibold d-block text-truncate text-decoration-none" })
+                        @Html.ActionLink(hotmusic.SingerName, "Detail", "DetailArtist",
+                            new { id = hotmusic.SingerId, artist = "singer" },
+                            new { @class = "text-muted small text-decoration-none" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- ALBUM MỚI -->
+    <h3 class="mt-5 mb-3 fw-bold text-success">
+        ALBUM MỚI <i class="fa fa-angle-right"></i>
+    </h3>
+    <div class="row g-4">
+        @foreach (var item in ViewBag.listAblum)
+        {
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm border-0 h-100 text-center">
+                    <img src="~/ImageUpload/single.png" class="card-img-top rounded" alt="@item.AlbumTitle">
+                    <div class="card-body">
+                        <span class="fw-semibold d-block text-truncate">@item.AlbumTitle</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- NGHỆ SĨ HOT -->
+    <h3 class="mt-5 mb-3 fw-bold text-warning">
+        NGHỆ SĨ HOT <i class="fa fa-angle-right"></i>
+    </h3>
+    <div class="row g-4">
+        @foreach (var item in ViewBag.listMusician)
+        {
+            <div class="col-6 col-md-2">
+                <div class="card shadow-sm border-0 h-100 text-center">
+                    <img src="@Url.Content(item.MusicianPic)" class="card-img-top rounded-circle" alt="@item.MusicianName" style="object-fit: cover; height: 120px; width: 120px; margin: 0 auto;">
+                    <div class="card-body">
+                        <span class="fw-semibold d-block text-truncate">@item.MusicianName</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
